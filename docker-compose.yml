@@ -16,8 +16,8 @@ services:
 
   # 2. MySQL
   mysql:
-    image: mysql:8
-    container_name: mysql-container
+    image: mysql:8.1
+    container_name: gugudan_mysql
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
@@ -33,8 +33,8 @@ services:
 
   # 3. Redis
   redis:
-    image: redis:latest
-    container_name: redis-container
+    image: redis:8.2
+    container_name: gugudan_redis
     restart: always
     ports:
       - "6379:6379"
