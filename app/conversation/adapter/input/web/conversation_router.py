@@ -60,6 +60,7 @@ async def stream_chat_auto(
         room_id: str | None = Body(default=None, embed=True),
         db: Session = Depends(get_db_session)
 ):
+    print(f"stream_chat_auto")
     # 레포지토리와 유즈케이스를 함수 내부에서 생성 (세션 주입)
     from app.conversation.infrastructure.repository.chat_room_repository_impl import ChatRoomRepositoryImpl
     from app.conversation.infrastructure.repository.chat_message_repository_impl import ChatMessageRepositoryImpl
@@ -75,7 +76,7 @@ async def stream_chat_auto(
         usage_meter=usage_meter,
         crypto_service=crypto_service
     )
-
+    print(f"usecase {usecase}")
     # 방 생성 로직
     if room_id is None:
         room_id = str(uuid.uuid4())
@@ -92,13 +93,14 @@ async def stream_chat_auto(
         if not room:
             raise HTTPException(status_code=404, detail="Room not found")
 
+    print(f"room_id {room_id}")
     generator = usecase.execute(
         room_id=room_id,
         account_id=account_id,
         message=message,
         contents_type="TEXT",
     )
-
+    print(f"generator {generator}")
     return StreamAdapter.to_streaming_response(generator)
 
 
